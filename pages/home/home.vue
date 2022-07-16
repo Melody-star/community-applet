@@ -7,20 +7,9 @@
 			<image src="../../static/home/shangxiaqiehuan.png" class="qiehuan"></image>
 		</view>
 		<swiper :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
-			<!-- v-for="item in swiperList" :key="item.id" -->
-			<swiper-item>
+			<swiper-item v-for="item in swiperList" :key="item.id">
 				<view class="swiper-item">
-					<image src="../../static/home/swiper1.png" style="width: 688rpx;height: 240rpx;"></image>
-				</view>
-			</swiper-item>
-			<swiper-item>
-				<view class="swiper-item">
-					<image src="../../static/home/swiper2.png" style="width: 688rpx;height: 240rpx;"></image>
-				</view>
-			</swiper-item>
-			<swiper-item>
-				<view class="swiper-item">
-					<image src="../../static/home/swiper3.png" style="width: 688rpx;height: 240rpx;"></image>
+					<image :src="item.url" style="width: 688rpx;height: 240rpx;"></image>
 				</view>
 			</swiper-item>
 		</swiper>
@@ -59,28 +48,37 @@
 			</view>
 		</view>
 		<view class="down">
-			<text class="gonggao">公告</text>
-			<text class="toupiao">投票</text>
-			<view class="ase"></view>
-			<view class="gonggao-1">
-				<text class="gonggao-1-text">{{title}}</text>
-				<image src="../../static/home/zhiding.png" class="zhiding"></image>
-				<text class="time">{{time}}</text>
+			<view class="down-top">
+				<text v-if="current === 0" class="gonggao gonggao-toupiao active" @click="onClickItem2">公告</text>
+				<text v-else class="gonggao gonggao-toupiao" @click="onClickItem2">公告</text>
+
+				<text v-if="current === 1" class="toupiao gonggao-toupiao active" @click="onClickItem1">投票</text>
+				<text v-else class="toupiao gonggao-toupiao " @click="onClickItem1">投票</text>
 			</view>
-			<view class="gonggao-1" style="top: 985rpx;">
-				<text class="gonggao-1-text">{{title2}}</text>
-				<image src="../../static/home/pingtai.png" class="zhiding"></image>
-				<text class="time">{{time}}</text>
-			</view>
-			<view class="gonggao-1" style="top: 1137rpx;">
-				<text class="gonggao-1-text">{{title2}}</text>
-				<image src="../../static/home/pingtai.png" class="zhiding"></image>
-				<text class="time">{{time}}</text>
-			</view>
-			<view class="gonggao-1" style="top: 1285rpx;">
-				<text class="gonggao-1-text">{{title2}}</text>
-				<image src="../../static/home/pingtai.png" class="zhiding"></image>
-				<text class="time">{{time}}</text>
+			<view class="content">
+				<view v-show="current === 0">
+					<view class="gonggaoaa">
+						<view class="gonggao-1" v-for="item in homeNotice" :key="item.id">
+							<text class="gonggao-1-text">{{item.msg}}</text>
+							<image v-show="item.state==1" src="../../static/home/zhiding.png" class="zhiding"></image>
+							<image v-show="item.state==2" src="../../static/home/pingtai.png" class="zhiding"></image>
+							<text v-if="item.state==3" class="time"
+								style="top: 100rpx;left: 30rpx;">{{item.time}}</text>
+							<text v-else class="time">{{item.time}}</text>
+							<text class="notice-more" style="color: rgba(61, 61, 61, 0.5);">更多</text>
+							<image class="notice-more-icon" src="/static/home/more.png"></image>
+						</view>
+					</view>
+				</view>
+				<view v-show="current === 1" class="gonggaoaa">
+					<view class="vote-item" v-for="item in voteList" :key="item.id">
+						<image src="../../static/home/toupiao.png" class="vote-item-icon"></image>
+						<text class="vote-item-title">{{item.title}}</text>
+						<text class="vote-item-time">{{item.beginTime+" 至 "+item.endTime}}</text>
+						<text class="notice-more" style="color: rgba(61, 61, 61, 0.5);">更多</text>
+						<image class="notice-more-icon" src="/static/home/more.png"></image>
+					</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -91,24 +89,46 @@
 		data() {
 			return {
 				swiperList: [],
+				homeNotice: [],
+				voteList: [],
 				address: '南昌路社区',
-				title: "希望业主做好生活垃圾定点投放的倡议",
-				time: '2022-07-11 13:21:42',
-				title2: "关于小程序平台维护通知",
+				items: ['公告', '投票'],
+				current: 0
 			};
 		},
 		onLoad() {
-			this.getSwiperList()
+			this.getSwiperList(),
+				this.getHomeNotice(),
+				this.getvoteList()
 		},
 		methods: {
 			async getSwiperList() {
 				const {
 					data: res
 				} = await uni.$http.get('/api/swiper')
-				console.log(res.List);
 				// if (res.meta.status != 200) return uni.$showMsg()
 				this.swiperList = res.List
 			},
+			async getHomeNotice() {
+				const {
+					data: res
+				} = await uni.$http.get('/api/homeNotice')
+				// if (res.meta.status != 200) return uni.$showMsg()
+				this.homeNotice = res.List
+			},
+			async getvoteList() {
+				const {
+					data: res
+				} = await uni.$http.get('/api/vote')
+				// if (res.meta.status != 200) return uni.$showMsg()
+				this.voteList = res.List
+			},
+			onClickItem1() {
+				this.current = 1;
+			},
+			onClickItem2() {
+				this.current = 0;
+			}
 		}
 	}
 </script>
@@ -130,11 +150,11 @@
 	.title {
 		position: absolute;
 		left: 82rpx;
-		top: 108rpx;
+		top: 103rpx;
 		width: 240rpx;
 		height: 44rpx;
 		font-family: SourceHanSansCN-Regular;
-		font-size: 28rpx;
+		font-size: 35rpx;
 		font-weight: normal;
 		letter-spacing: 0em;
 		color: #3D3D3D;
@@ -142,8 +162,8 @@
 
 	.qiehuan {
 		position: absolute;
-		left: 230rpx;
-		top: 114rpx;
+		left: 254rpx;
+		top: 111rpx;
 		width: 32rpx;
 		height: 32rpx;
 	}
@@ -164,7 +184,6 @@
 		height: 286rpx;
 		flex-wrap: wrap;
 		justify-content: space-between;
-
 		position: absolute;
 		left: 38rpx;
 		top: 448rpx;
@@ -195,53 +214,54 @@
 		margin-right: 30rpx;
 	}
 
-	.gonggao {
+	.down-top {
 		position: absolute;
 		left: 42rpx;
-		top: 745rpx;
+		top: 740rpx;
+	}
+
+	.gonggao {
+		&.active {
+			font-size: 36rpx;
+			font-weight: 550;
+			border-bottom: 10rpx solid #98C8EE;
+			padding-bottom: 5rpx;
+		}
+	}
+
+	.gonggao-toupiao {
 		font-family: SourceHanSansCN-Regular;
-		font-size: 36rpx;
-		font-weight: 550;
+		font-size: 30rpx;
+		font-weight: normal;
 		letter-spacing: 0em;
 		color: #3D3D3D;
 		box-sizing: border-box;
 	}
 
 	.toupiao {
-		position: absolute;
-		left: 185rpx;
-		top: 750rpx;
-		font-family: SourceHanSansCN-Regular;
-		font-size: 30rpx;
-		font-weight: normal;
-		letter-spacing: 0em;
-		color: #3D3D3D;
-	}
+		margin-left: 71rpx;
 
-	.ase {
-		position: absolute;
-		left: 44rpx;
-		top: 795rpx;
-		width: 66rpx;
-		height: 12rpx;
-		background: #98C8EE;
+		&.active {
+			font-size: 36rpx;
+			font-weight: 550;
+			border-bottom: 10rpx solid #98C8EE;
+		}
 	}
 
 	.gonggao-1 {
-		position: absolute;
-		left: 20rpx;
-		top: 834rpx;
+		position: relative;
 		width: 712rpx;
 		height: 140rpx;
 		border-radius: 24rpx;
 		background: rgba(0, 0, 0, 0.03);
+		margin-bottom: 20rpx;
 	}
 
 	.gonggao-1-text {
 		position: absolute;
 		left: 28rpx;
 		top: 24rpx;
-		width: 476rpx;
+		width: 570rpx;
 		height: 40rpx;
 		font-family: SourceHanSansCN-Regular;
 		font-size: 28rpx;
@@ -271,5 +291,63 @@
 		font-weight: normal;
 		letter-spacing: 0em;
 		color: rgba(61, 61, 61, 0.7);
+	}
+
+	.gonggaoaa {
+		position: absolute;
+		left: 20rpx;
+		top: 834rpx;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.vote-item {
+		position: relative;
+		width: 712rpx;
+		height: 140rpx;
+		border-radius: 24rpx;
+		background: rgba(0, 0, 0, 0.03);
+		margin-bottom: 20rpx;
+	}
+
+	.vote-item-icon {
+		position: absolute;
+		top: 25rpx;
+		left: 26rpx;
+		width: 32rpx;
+		height: 32rpx;
+	}
+
+	.vote-item-title {
+		position: absolute;
+		top: 24rpx;
+		left: 70rpx;
+		width: 666rpx;
+		font-size: 28rpx;
+	}
+
+	.vote-item-time {
+		position: absolute;
+		top: 88rpx;
+		left: 31rpx;
+		font-size: 23rpx;
+	}
+
+	.notice-more {
+		position: absolute;
+		left: 613rpx;
+		top: 24rpx;
+		font-family: SourceHanSansCN-Regular;
+		font-size: 24rpx;
+		font-weight: normal;
+		letter-spacing: 0em;
+	}
+
+	.notice-more-icon {
+		width: 24rpx;
+		height: 24rpx;
+		position: absolute;
+		top: 31rpx;
+		left: 661rpx;
 	}
 </style>
