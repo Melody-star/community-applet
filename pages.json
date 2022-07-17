@@ -23,6 +23,18 @@
 		}
 
 	}],
+	"subPackages": [{
+		"root": "subpkg",
+		"pages": [{
+			"path": "community/community",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "选择社区"
+			}
+
+		}]
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",

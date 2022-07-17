@@ -1,9 +1,9 @@
 <template>
-	<view style="background-color: white;width: 750rpx; height: 2000rpx;">
+	<view>
 		<image src="../../static/home/bg.png" class="bg"></image>
 		<view class="top">
 			<image src="../../static/home/weizhi.png" class="dingwei"></image>
-			<text class="title">{{address}}</text>
+			<navigator url="/subpkg/community/community" open-type="navigate" class="title">{{address}}</navigator>
 			<image src="../../static/home/shangxiaqiehuan.png" class="qiehuan"></image>
 		</view>
 		<swiper :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
@@ -134,6 +134,10 @@
 </script>
 
 <style lang="scss">
+	page {
+		background-color: white;
+	}
+
 	.bg {
 		width: 750rpx;
 		height: 268rpx;
