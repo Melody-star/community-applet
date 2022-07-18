@@ -33,6 +33,14 @@
 				"navigationBarTitleText": "选择社区"
 			}
 
+		}, {
+			"path": "rubbish/rubbish",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "垃圾分类"
+			}
+
 		}]
 	}],
 	"globalStyle": {

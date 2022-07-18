@@ -30,10 +30,6 @@
 </script>
 
 <style lang="scss">
-	page {
-		background-color: white;
-	}
-
 	.bgImg {
 		width: 514rpx;
 		height: 257rpx;

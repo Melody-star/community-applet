@@ -9,7 +9,7 @@
 		<swiper :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
 			<swiper-item v-for="item in swiperList" :key="item.id">
 				<view class="swiper-item">
-					<image :src="item.url" style="width: 688rpx;height: 240rpx;"></image>
+					<image :src="item.name" style="width: 688rpx;height: 240rpx;"></image>
 				</view>
 			</swiper-item>
 		</swiper>
@@ -26,10 +26,10 @@
 				<image src="../../static/home/8.png" class="icon"></image>
 				<text class="wen">志愿服务</text>
 			</view>
-			<view class="aaa" style="margin-right: 0rpx;">
+			<navigator class="aaa" style="margin-right: 0rpx;" url="/subpkg/rubbish/rubbish" open-type="navigate">
 				<image src="../../static/home/3.png" class="icon"></image>
 				<text class="wen">垃圾分类</text>
-			</view>
+			</navigator>
 			<view class="aaa">
 				<image src="../../static/home/4.png" class="icon"></image>
 				<text class="wen">失物招领</text>
@@ -105,21 +105,22 @@
 			async getSwiperList() {
 				const {
 					data: res
-				} = await uni.$http.get('/api/swiper')
+				} = await uni.$http.get('http://110.40.210.35:8080/api/swiper')
 				// if (res.meta.status != 200) return uni.$showMsg()
-				this.swiperList = res.List
+				// console.log(res);
+				this.swiperList = res.data
 			},
 			async getHomeNotice() {
 				const {
 					data: res
-				} = await uni.$http.get('/api/homeNotice')
+				} = await uni.$http.get('https://example.com/api/homeNotice')
 				// if (res.meta.status != 200) return uni.$showMsg()
 				this.homeNotice = res.List
 			},
 			async getvoteList() {
 				const {
 					data: res
-				} = await uni.$http.get('/api/vote')
+				} = await uni.$http.get('https://example.com/api/vote')
 				// if (res.meta.status != 200) return uni.$showMsg()
 				this.voteList = res.List
 			},
@@ -134,10 +135,6 @@
 </script>
 
 <style lang="scss">
-	page {
-		background-color: white;
-	}
-
 	.bg {
 		width: 750rpx;
 		height: 268rpx;

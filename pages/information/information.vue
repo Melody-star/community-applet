@@ -23,7 +23,7 @@
 			async getnewsList() {
 				const {
 					data: res
-				} = await uni.$http.get('/api/news')
+				} = await uni.$http.get('https://example.com/api/news')
 				// if (res.meta.status != 200) return uni.$showMsg()
 				this.newsList = res.List
 				console.log(this.newsList);
