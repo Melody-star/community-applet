@@ -41,6 +41,20 @@
 				"navigationBarTitleText": "垃圾分类"
 			}
 
+		}, {
+			"path": "collect/collect",
+			"style": {
+				"navigationBarTitleText": "数据采集",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "collectForm/collectForm",
+			"style": {
+				"navigationBarTitleText": "详情",
+				"enablePullDownRefresh": false
+			}
+
 		}]
 	}],
 	"globalStyle": {

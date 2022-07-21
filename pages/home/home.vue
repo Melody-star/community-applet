@@ -14,10 +14,10 @@
 			</swiper-item>
 		</swiper>
 		<view class="centre">
-			<view class="aaa">
+			<navigator class="aaa" url="/subpkg/collect/collect" open-type="navigate">
 				<image src="../../static/home/2.png" class="icon"></image>
 				<text class="wen">数据采集</text>
-			</view>
+			</navigator>
 			<view class="aaa">
 				<image src="../../static/home/7.png" class="icon"></image>
 				<text class="wen">在线预审</text>
@@ -51,7 +51,6 @@
 			<view class="down-top">
 				<text v-if="current === 0" class="gonggao gonggao-toupiao active" @click="onClickItem2">公告</text>
 				<text v-else class="gonggao gonggao-toupiao" @click="onClickItem2">公告</text>
-
 				<text v-if="current === 1" class="toupiao gonggao-toupiao active" @click="onClickItem1">投票</text>
 				<text v-else class="toupiao gonggao-toupiao " @click="onClickItem1">投票</text>
 			</view>
@@ -59,12 +58,12 @@
 				<view v-show="current === 0">
 					<view class="gonggaoaa">
 						<view class="gonggao-1" v-for="item in homeNotice" :key="item.id">
-							<text class="gonggao-1-text">{{item.msg}}</text>
-							<image v-show="item.state==1" src="../../static/home/zhiding.png" class="zhiding"></image>
-							<image v-show="item.state==2" src="../../static/home/pingtai.png" class="zhiding"></image>
-							<text v-if="item.state==3" class="time"
-								style="top: 100rpx;left: 30rpx;">{{item.time}}</text>
-							<text v-else class="time">{{item.time}}</text>
+							<text class="gonggao-1-text">{{item.name}}</text>
+							<image v-show="item.admin==0" src="../../static/home/zhiding.png" class="zhiding"></image>
+							<image v-show="item.admin==1" src="../../static/home/pingtai.png" class="zhiding"></image>
+							<text v-if="item.admin==2" class="time"
+								style="top: 100rpx;left: 30rpx;">{{item.createTime}}</text>
+							<text v-else class="time">{{item.createTime}}</text>
 							<text class="notice-more" style="color: rgba(61, 61, 61, 0.5);">更多</text>
 							<image class="notice-more-icon" src="/static/home/more.png"></image>
 						</view>
@@ -98,8 +97,8 @@
 		},
 		onLoad() {
 			this.getSwiperList(),
-				this.getHomeNotice(),
-				this.getvoteList()
+				this.getHomeNotice()
+			// this.getvoteList()
 		},
 		methods: {
 			async getSwiperList() {
@@ -107,15 +106,14 @@
 					data: res
 				} = await uni.$http.get('http://110.40.210.35:8080/api/swiper')
 				// if (res.meta.status != 200) return uni.$showMsg()
-				// console.log(res);
 				this.swiperList = res.data
 			},
 			async getHomeNotice() {
 				const {
 					data: res
-				} = await uni.$http.get('https://example.com/api/homeNotice')
+				} = await uni.$http.get('http://110.40.210.35:8080/announce')
 				// if (res.meta.status != 200) return uni.$showMsg()
-				this.homeNotice = res.List
+				this.homeNotice = res.data
 			},
 			async getvoteList() {
 				const {
