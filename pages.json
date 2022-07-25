@@ -55,6 +55,41 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "my-feedback/my-feedback",
+			"style": {
+				"navigationBarTitleText": "平台反馈",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "my-problem/my-problem",
+			"style": {
+				"navigationBarTitleText": "常见问题",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "my-guide/my-guide",
+			"style": {
+				"navigationBarTitleText": "办事指南",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "home-feedbck/home-feedbck",
+			"style": {
+				"navigationBarTitleText": "社区反馈",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "my-guide-detail/my-guide-detail",
+			"style": {
+				"navigationBarTitleText": "事项详情",
+				"enablePullDownRefresh": false
+			}
+
 		}]
 	}],
 	"globalStyle": {

@@ -58,6 +58,7 @@
 				} = await uni.$http.get(
 					`https://www.mxnzp.com/api/rubbish/type?name=${rubbishName}&app_id=oajlnynotujmrmzi&app_secret=UGxuVkdNVXdjWWNrUE9UdSs1UlRVdz09`
 				)
+				console.log(res);
 				// if (res.meta.status != 200) return uni.$showMsg()
 				this.rubbishType = res.data
 				this.$refs.popup.open('center')

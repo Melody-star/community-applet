@@ -34,7 +34,7 @@ import {
 
 uni.$http = $http
 // 配置请求根路径
-// $http.baseUrl = 'https://example.com'
+$http.baseUrl = 'http://110.40.210.35'
 
 // 请求开始之前做一些事情
 $http.beforeRequest = function(options) {

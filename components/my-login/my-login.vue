@@ -49,7 +49,7 @@
 				const {
 					data: loginResult
 				} =
-				await uni.$http.post(`http://110.40.210.35:8080/wx/login?code=${res.code}`)
+				await uni.$http.post(`/wx/login?code=${res.code}`)
 
 				if (loginResult.code !== 1) return uni.$showMsg('登录失败！')
 

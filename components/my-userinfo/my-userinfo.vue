@@ -5,29 +5,30 @@
 		<image :src="userinfo.avatarUrl" class="avatar"></image>
 		<view class="nickname">{{userinfo.nickName}}</view>
 		<view class="box">
-			<view class="box-1">
+			<navigator class="box-1" url="/subpkg/community/community">
 				<image class="box-1-icon" src="../../static/my/1.png" mode=""></image>
 				<text class="box-1-text ">当前社区</text>
 				<image class="box-1-image" src="../../static/home/more.png"></image>
-			</view>
-			<view class="box-2">
+			</navigator>
+			<navigator class="box-2" url="/subpkg/my-problem/my-problem">
 				<image class="box-2-icon" src="../../static/my/2.png" mode=""></image>
 				<text class="box-2-text ">常见问题</text>
 				<image class="box-2-image" src="../../static/home/more.png"></image>
-			</view>
-			<view class="box-3">
+			</navigator>
+			<navigator class="box-3" url="/subpkg/my-feedback/my-feedback">
 				<image class="box-3-icon" src="../../static/my/1.png" mode=""></image>
 				<text class="box-3-text ">平台反馈</text>
 				<image class="box-3-image" src="../../static/home/more.png"></image>
-			</view>
+			</navigator>
 			<view class="box-4">
-				<image class="box-4-icon" src="../../static/my/1.png" mode=""></image>
+				<image class="box-4-icon" src="../../static/my/4.png" mode=""></image>
 				<text class="box-4-text ">联系客服</text>
 				<image class="box-4-image" src="../../static/home/more.png"></image>
 			</view>
+			<button open-type="contact" class="aaa"></button>
 		</view>
 		<view class="but-end">
-			<text class="but-text">退出</text>
+			<text class="but-text" @click="logout">退出</text>
 		</view>
 	</view>
 </template>
@@ -35,7 +36,8 @@
 <script>
 	// 按需导入 mapState 辅助函数
 	import {
-		mapState
+		mapState,
+		mapMutations
 	} from 'vuex'
 
 	export default {
@@ -49,10 +51,43 @@
 			// 将 m_user 模块中的 userinfo 映射到当前页面中使用
 			...mapState(['userinfo']),
 		},
+		methods: {
+			...mapMutations(['updateUserInfo', 'updateToken']),
+			logout() {
+				uni.removeStorageSync('token')
+				uni.removeStorageSync('userinfo')
+				this.updateToken('')
+				uni.switchTab({
+					url: '../../pages/home/home',
+					success: () => {
+						uni.$showMsg('退出成功')
+					},
+				})
+			}
+		}
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+	.aaa {
+		position: absolute;
+		left: 44rpx;
+		top: 336rpx;
+		width: 606rpx;
+		height: 40rpx;
+	}
+
+	button {
+		background: rgba(0, 0, 0, 0) !important;
+		border-radius: 0rpx !important;
+		padding-left: 0rpx !important;
+	}
+
+	button::after {
+		border-radius: 0rpx !important;
+		border: 0rpx #fff solid !important;
+	}
+
 	.top-title {
 		position: absolute;
 		left: 338rpx;
@@ -70,8 +105,8 @@
 		top: 204rpx;
 		width: 128rpx;
 		height: 128rpx;
-		border-radius: 45px;
-		border: 1px solid white;
+		border-radius: 90rpx;
+		border: 2rpx solid white;
 	}
 
 	.nickname {
@@ -93,7 +128,7 @@
 		height: 428rpx;
 		border-radius: 30rpx;
 		background: #FFFFFF;
-		box-shadow: 0px 8rpx 20rpx 0px rgba(0, 0, 0, 0.1);
+		box-shadow: 0rpx 8rpx 20rpx 0rpx rgba(0, 0, 0, 0.1);
 
 		.box-1 {
 			position: absolute;
@@ -111,7 +146,7 @@
 			.box-1-text {
 				position: absolute;
 				left: 72rpx;
-				top: 0px;
+				top: 0rpx;
 				// font-family: SourceHanSansCN;
 				font-size: 30rpx;
 				font-weight: normal;
@@ -138,7 +173,7 @@
 
 			.box-2-icon {
 				position: absolute;
-				left: 0px;
+				left: 0rpx;
 				top: 4rpx;
 				width: 32rpx;
 				height: 32rpx;
@@ -147,7 +182,7 @@
 			.box-2-text {
 				position: absolute;
 				left: 68rpx;
-				top: 0px;
+				top: 0rpx;
 				font-family: SourceHanSansCN-Regular;
 				font-size: 30rpx;
 				font-weight: normal;
@@ -174,7 +209,7 @@
 
 			.box-3-icon {
 				position: absolute;
-				left: 0px;
+				left: 0rpx;
 				top: 8rpx;
 				width: 32rpx;
 				height: 32rpx;
@@ -183,7 +218,7 @@
 			.box-3-text {
 				position: absolute;
 				left: 68rpx;
-				top: 0px;
+				top: 0rpx;
 				font-family: SourceHanSansCN-Regular;
 				font-size: 30rpx;
 				font-weight: normal;
@@ -194,7 +229,7 @@
 			.box-3-image {
 				position: absolute;
 				left: 574rpx;
-				top: 0px;
+				top: 0rpx;
 				width: 32rpx;
 				height: 32rpx;
 				opacity: 0.5;
@@ -210,7 +245,7 @@
 
 			.box-4-icon {
 				position: absolute;
-				left: 0px;
+				left: 0rpx;
 				top: 4rpx;
 				width: 32rpx;
 				height: 31.18rpx;
@@ -219,7 +254,7 @@
 			.box-4-text {
 				position: absolute;
 				left: 68rpx;
-				top: 0px;
+				top: 0rpx;
 				font-family: SourceHanSansCN-Regular;
 				font-size: 28rpx;
 				font-weight: normal;
@@ -230,7 +265,7 @@
 			.box-4-image {
 				position: absolute;
 				left: 574rpx;
-				top: 0px;
+				top: 0rpx;
 				width: 32rpx;
 				height: 32rpx;
 				opacity: 0.5;
@@ -246,7 +281,7 @@
 		height: 92rpx;
 		border-radius: 60rpx;
 		background: #FFFFFF;
-		box-shadow: 0px 8rpx 20rpx 0px rgba(0, 0, 0, 0.1);
+		box-shadow: 0rpx 8rpx 20rpx 0rpx rgba(0, 0, 0, 0.1);
 	}
 
 	.but-text {

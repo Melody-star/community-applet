@@ -5,6 +5,7 @@
 
 <script>
 	import store from '../../store/store.js'
+
 	import {
 		mapState
 	} from 'vuex'
@@ -20,19 +21,6 @@
 				token: 'token'
 			})
 		},
-		onLoad() {
-			// uni.checkSession({
-			// 	success: function() {
-
-			// 	},
-			// 	fail: function() {
-
-			// 	}
-			// })
-		},
-		methods: {
-
-		}
 	}
 </script>
 

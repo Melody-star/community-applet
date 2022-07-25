@@ -34,18 +34,18 @@
 				<image src="../../static/home/4.png" class="icon"></image>
 				<text class="wen">失物招领</text>
 			</view>
-			<view class="aaa">
+			<navigator class="aaa" url="/subpkg/my-guide/my-guide" open-type="navigate">
 				<image src="../../static/home/1.png" class="icon"></image>
 				<text class="wen">办事指南</text>
-			</view>
+			</navigator>
 			<view class="aaa">
 				<image src="../../static/home/5.png" class="icon"></image>
 				<text class="wen">万能电话</text>
 			</view>
-			<view class="aaa" style="margin-right: 0rpx;">
+			<navigator url="/subpkg/home-feedbck/home-feedbck" class="aaa" style="margin-right: 0rpx;">
 				<image src="../../static/home/6.png" class="icon"></image>
-				<text class="wen">意见反馈</text>
-			</view>
+				<text class="wen">社区反馈</text>
+			</navigator>
 		</view>
 		<view class="down">
 			<view class="down-top">
@@ -73,7 +73,7 @@
 					<view class="vote-item" v-for="item in voteList" :key="item.id">
 						<image src="../../static/home/toupiao.png" class="vote-item-icon"></image>
 						<text class="vote-item-title">{{item.title}}</text>
-						<text class="vote-item-time">{{item.beginTime+" 至 "+item.endTime}}</text>
+						<text class="vote-item-time">{{item.isData+" 至 "+item.endTime}}</text>
 						<text class="notice-more" style="color: rgba(61, 61, 61, 0.5);">更多</text>
 						<image class="notice-more-icon" src="/static/home/more.png"></image>
 					</view>
@@ -97,30 +97,31 @@
 		},
 		onLoad() {
 			this.getSwiperList(),
-				this.getHomeNotice()
-			// this.getvoteList()
+				this.getHomeNotice(),
+				this.getvoteList()
 		},
 		methods: {
 			async getSwiperList() {
 				const {
 					data: res
-				} = await uni.$http.get('http://110.40.210.35:8080/api/swiper')
+				} = await uni.$http.get('/api/swiper')
 				// if (res.meta.status != 200) return uni.$showMsg()
 				this.swiperList = res.data
 			},
 			async getHomeNotice() {
 				const {
 					data: res
-				} = await uni.$http.get('http://110.40.210.35:8080/announce')
+				} = await uni.$http.get('/announce')
 				// if (res.meta.status != 200) return uni.$showMsg()
 				this.homeNotice = res.data
 			},
 			async getvoteList() {
 				const {
 					data: res
-				} = await uni.$http.get('https://example.com/api/vote')
+				} = await uni.$http.get('/vote?name=&id=1')
 				// if (res.meta.status != 200) return uni.$showMsg()
-				this.voteList = res.List
+				this.voteList = res.data
+				console.log(this.voteList);
 			},
 			onClickItem1() {
 				this.current = 1;
